@@ -23,8 +23,4 @@ contract Safe {
             balances[msg.sender] = 0;   
         }
     }
-    
-    function getBalance() public view returns(uint256) {
-        return address(this).balance;
-    }
 }

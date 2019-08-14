@@ -2,29 +2,19 @@ pragma solidity 0.5.10;
 
 /**
  * Everyone can place bids and then owner calls determineWinner()
- * That determines the winner and if you were not the winner you get refunded 50%
+ * If you were not the winner you get refunded 50%
  */
 contract BiddingContest {
-    
     struct Bid {
         address payable bidder;
         uint bidAmount;
     }
-    
     address owner;
     Bid[] bids;
     mapping(address => uint) payouts;
     Bid public winner;
     
-    constructor() public {
-        owner = msg.sender;
-    }
-    
-    function bid() public payable {
-        //require(msg.sender != owner);
-        Bid memory b = Bid(msg.sender, msg.value);
-        bids.push(b);
-    }
+    constructor() public {owner = msg.sender;}
     
     /**
      * If there are enough bidders then the gas cost for this function may 
@@ -54,6 +44,12 @@ contract BiddingContest {
         winner = highestBid;
         payouts[winner.bidder] = winnings;
         return start - gasleft();
+    }
+
+    function bid() public payable {
+        require(msg.sender != owner);
+        Bid memory b = Bid(msg.sender, msg.value);
+        bids.push(b);
     }
     
     function getPayout() public {

@@ -8,9 +8,7 @@ pragma solidity 0.5.10;
 contract KingOfEther {
     uint price;
     address payable king;
-    
-    function () external payable{}
-    
+
     function takeOver() public payable{
         require(msg.value > price);
         king.transfer(msg.value);
