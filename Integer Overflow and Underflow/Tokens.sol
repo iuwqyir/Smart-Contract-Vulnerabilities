@@ -1,14 +1,15 @@
 pragma solidity 0.5.10;
 
+/**
+ * This contract has the integer underflow vulnerability
+ */
 contract Tokens {
-    
+    /**
+     * Token amount for 1 ether
+     */
     uint8 constant TOKEN_AMOUNT = 10;
 
     mapping(address => uint) balances;
-    
-    constructor() public payable {
-        require(msg.value == 10 ether);
-    }
 
     function buy() public payable {
         require(msg.value == 1 ether);

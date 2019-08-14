@@ -19,6 +19,10 @@ contract PaymentService {
         require(address(this).balance == 0, 'Contract already payed');
     }
     
+    /**
+     * Decides if asset is paid for. But ether can 
+     * also be forced to the smart contract
+     */
     function isPaid() public view returns(bool) {
         return address(this).balance > 0;
     }
