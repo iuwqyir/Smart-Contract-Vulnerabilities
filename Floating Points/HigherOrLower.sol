@@ -1,5 +1,11 @@
 pragma solidity 0.5.10;
 
+/**
+ * This contract incorrectly handles a calculation
+ * expecting a floating point result from a division.
+ * Solidity does not have floating point variables 
+ * (they can only be declared but not assigned to or from)
+ */
 contract HigherOrLower {
     address payable private owner;
     
@@ -17,16 +23,12 @@ contract HigherOrLower {
     
     constructor() public {
         owner = msg.sender;
-        //generate random target
-        target = 20000;
+        generateTarget();
     }
-    
-    function() external payable{}
-    
+
     function resolve() public {
         require(msg.sender == owner);
-        //generate random number
-        result = 100;
+        generateResult();
         divideWinnings();
     }
     
@@ -51,6 +53,9 @@ contract HigherOrLower {
         delete(addressesLower);
     }
     
+    /**
+     * Lets user submit their guess
+     */
     function bet(bool _isHigher) public payable {
         require(msg.value == 1 ether);
         require(target != 0);
@@ -64,6 +69,9 @@ contract HigherOrLower {
         }
     }
     
+    /**
+     * Users can collect their winnings
+     */
     function collect() public {
         require(releaseFunds);
         uint amount = balances[msg.sender];
@@ -72,7 +80,19 @@ contract HigherOrLower {
         msg.sender.transfer(amount);
     }
     
-    function getContractBalance() view public returns(uint){
-        return address(this).balance;
+    /**
+     * Generates target for guessers
+     * Users have to guess if 'result' will be higher or lower
+     */
+    function generateTarget() public {
+        target = 20000; //random -- placeholder for now
     }
+    
+    /**
+     * Generate the number that is either higher or lower
+     * than the 'target'
+     */
+     function generateResult() public {
+        result = 100; //random -- placeholder for now
+     }
 }
